@@ -1,5 +1,5 @@
 /**
- * Created by sumanthu on 21/08/17.
+ * Created by sumanthu on 28/08/17.
  */
 export const LOGIN_SUCCESS = 'login_success';
 export const LOGIN_FAILURE = 'login_failure';

@@ -1,5 +1,5 @@
 /**
- * Created by sumanthu on 20/08/17.
+ * Created by sumanthu on 28/08/17.
  */
 import { NetInfo, Alert } from 'react-native';
 

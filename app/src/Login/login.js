@@ -1,5 +1,5 @@
 /**
- * Created by sumanthu on 20/08/17.
+ * Created by sumanthu on 28/08/17.
  */
 import React,{ Component } from 'react'
 import {StyleSheet,TextInput,Text,View,TouchableOpacity,Dimensions,Alert,ActivityIndicator,Image,Platform} from 'react-native'
@@ -175,12 +175,12 @@ class Login extends Component {
                         </View>
                         <View style={{flexDirection:'row',paddingTop:20}}>
                             <Text style ={styles.textStyle}>EMAIL</Text>
-                            <TextInput  style ={styles.textInputStyle} placeholder="Please Enter Email"  value={this.state.username} onChangeText= {(text)=>this.setState({username:"karthikg1643@gmail.com"})} />
+                            <TextInput  style ={styles.textInputStyle} placeholder="Please Enter Email"  value={this.state.username} onChangeText= {(text)=>this.setState({username:text})} />
 
                         </View>
                         <View style={{flexDirection:'row'}}>
                             <Text style ={styles.textStyle}>Password</Text>
-                            <TextInput  style ={styles.textInputStyle} placeholder="Please Enter Password"  value={this.state.password} onChangeText= {(text)=>this.setState({password:"naruto@8123807576"})} />
+                            <TextInput  style ={styles.textInputStyle} placeholder="Please Enter Password"  value={this.state.password} onChangeText= {(text)=>this.setState({password:text})} />
                         </View>
                         <TouchableOpacity onPress={() => Alert.alert("This is not under requirement and hence not Implemented")}>
                             <Text style ={styles.forgotTextStyle}>Forgot Password?</Text>
