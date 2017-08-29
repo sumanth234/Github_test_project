@@ -180,7 +180,7 @@ class Login extends Component {
                         </View>
                         <View style={{flexDirection:'row'}}>
                             <Text style ={styles.textStyle}>Password</Text>
-                            <TextInput  style ={styles.textInputStyle} placeholder="Please Enter Password"  value={this.state.password} onChangeText= {(text)=>this.setState({password:text})} />
+                            <TextInput secureTextEntry={true} style ={styles.textInputStyle} placeholder="Please Enter Password"  value={this.state.password} onChangeText= {(text)=>this.setState({password:text})} />
                         </View>
                         <TouchableOpacity onPress={() => Alert.alert("This is not under requirement and hence not Implemented")}>
                             <Text style ={styles.forgotTextStyle}>Forgot Password?</Text>

@@ -73,7 +73,7 @@ class CommitsPage extends Component {
 
                 <View style={{height:150,borderWidth:1,margin:1}}>
                     <Text style={{paddingTop:2,paddingBottom:2,paddingLeft:10,}}>{rowData.commit.message}</Text>
-                    <Text style={{paddingTop:2,paddingBottom:2,paddingLeft:10}}>{rowData.commit.committer.name}{" commited at "}{date}</Text>
+                    <Text style={{paddingTop:2,paddingBottom:2,paddingLeft:10}}>{"commited by "}{rowData.commit.committer.name}{" on "}{date}</Text>
 
 
                 </View>
