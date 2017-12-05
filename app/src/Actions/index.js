@@ -43,18 +43,15 @@ export const LoggedIn = (dispatch, username = "",password = "") => {
 export const getRepos = (dispatch, username = "",password = "") => {
     Services.getUserRepos("users/" + Services.getLoginName() + "/repos",'GET',username,password)
         .then(result =>{
+            console.log("Rep",result)
             if(result.status >=200 && result.status<=300){
                 return result.json()
-                console.log("Repos Result",result.json()) ;
             }else  if (result.status == 401){
-                //Alert.alert("Please enter valid credentials")
                 dispatch({
                     type: Types.REPO_UNABLETO_GETDATA,
                     payload: []
                 })
             }
-
-
         }).then(data => {
         console.log("Repos Result",data) ;
         dispatch({
@@ -99,6 +96,137 @@ export const getCommits = (dispatch, username = "",password = "",name = "") => {
            // Alert.alert("Please try again later")
             dispatch({
                 type: Types.COMMIT_UNABLETO_GETDATA,
+                payload: err
+            })
+        }))
+}
+export const getIssues = (dispatch, username = "",password = "",name = "") => {
+    Services.getUserRepoIssues("repos/" + Services.getLoginName() + "/" + name + "/issues", 'GET', Services.getUsername(), Services.getPassword())
+        .then(result => {
+            if (result.status >= 200 && result.status <= 300) {
+                //console.log(result.json())
+                return result.json()
+
+            } else if (result.status == 401) {
+                //Alert.alert("Please enter valid credentials")
+                dispatch({
+                    type: Types.ISSUE_UNABLETO_GETDATA,
+                    payload: []
+                })
+            }
+
+
+        }).then(data => {
+        console.log("Issues Result", data);
+        dispatch({
+            type: Types.ISSUE_ABLETO_GETDATA,
+            payload: data
+        })
+    })
+        .catch((err => {
+            console.log("error", err)
+            // Alert.alert("Please try again later")
+            dispatch({
+                type: Types.ISSUE_UNABLETO_GETDATA,
+                payload: err
+            })
+        }))
+}
+export const getStars = (dispatch, username = "",password = "",name = "") => {
+    Services.getUserStars("users/" + Services.getLoginName() + "/starred", 'GET', Services.getUsername(), Services.getPassword())
+        .then(result => {
+            console.log("starResult",result)
+            if (result.status >= 200 && result.status <= 300) {
+                //console.log(result.json())
+                return result.json()
+
+            } else if (result.status == 401) {
+                //Alert.alert("Please enter valid credentials")
+                dispatch({
+                    type: Types.STAR_UNABLETO_GETDATA,
+                    payload: []
+                })
+            }
+
+
+        }).then(data => {
+        console.log("stars Result", data);
+        dispatch({
+            type: Types.STAR_ABLETO_GETDATA,
+            payload: data
+        })
+    })
+        .catch((err => {
+            console.log("error", err)
+            // Alert.alert("Please try again later")
+            dispatch({
+                type: Types.STAR_UNABLETO_GETDATA,
+                payload: err
+            })
+        }))
+}
+export const getFollowers = (dispatch, username = "",password = "",name = "") => {
+    Services.getUserFollowers("users/" + Services.getLoginName() + "/followers", 'GET', Services.getUsername(), Services.getPassword())
+        .then(result => {
+            console.log("followerResult",result)
+            if (result.status >= 200 && result.status <= 300) {
+                //console.log(result.json())
+                return result.json()
+
+            } else if (result.status == 401) {
+                //Alert.alert("Please enter valid credentials")
+                dispatch({
+                    type: Types.FOLLOWER_UNABLETO_GETDATA,
+                    payload: []
+                })
+            }
+
+
+        }).then(data => {
+        console.log("followers Result", data);
+        dispatch({
+            type: Types.FOLLOWER_ABLETO_GETDATA,
+            payload: data
+        })
+    })
+        .catch((err => {
+            console.log("error", err)
+            // Alert.alert("Please try again later")
+            dispatch({
+                type: Types.FOLLOWER_UNABLETO_GETDATA,
+                payload: err
+            })
+        }))
+}
+export const getFollowing = (dispatch, username = "",password = "",name = "") => {
+    Services.getUserFollowing("users/" + Services.getLoginName() + "/following", 'GET', Services.getUsername(), Services.getPassword())
+        .then(result => {
+            console.log("followingResult",result)
+            if (result.status >= 200 && result.status <= 300) {
+                //console.log(result.json())
+                return result.json()
+
+            } else if (result.status == 401) {
+                //Alert.alert("Please enter valid credentials")
+                dispatch({
+                    type: Types.FOLLOWING_UNABLETO_GETDATA,
+                    payload: []
+                })
+            }
+
+
+        }).then(data => {
+        console.log("following Result", data);
+        dispatch({
+            type: Types.FOLLOWING_ABLETO_GETDATA,
+            payload: data
+        })
+    })
+        .catch((err => {
+            console.log("error", err)
+            // Alert.alert("Please try again later")
+            dispatch({
+                type: Types.FOLLOWING_UNABLETO_GETDATA,
                 payload: err
             })
         }))

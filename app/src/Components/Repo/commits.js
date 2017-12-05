@@ -3,11 +3,12 @@
  */
 import React,{ Component } from 'react'
 import {StyleSheet,TextInput,Text,View,TouchableOpacity,Dimensions,ScrollView,Alert,ListView,ActivityIndicator,Linking,Platform,Image} from 'react-native'
-import Button from '../ReusableComponents/Button';
-import Services from '../Services/Services'
+import Button from '../../ReusableComponents/Button';
+import Services from '../../Services/Services'
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux'
-import { getCommits } from'../Actions'
+import { getCommits } from'../../Actions/index'
+import * as _ from 'lodash'
 var deviceWidth = Dimensions.get('window').width
 class CommitsPage extends Component {
     constructor(props){
@@ -49,12 +50,12 @@ class CommitsPage extends Component {
                 Alert.alert("Please try again later")
             }))*/
     }
-    componentDidUpdate(){
+    /*componentDidUpdate(){
         this.setState({
             showProgress:false,
             dataSource:this.state.dataSource.cloneWithRows(this.props.commitSuccessData)
         })
-    }
+    }*/
     renderRow(rowData){
             console.log("commit rowData",rowData)
             var createdDate = rowData.commit.committer.date ;
@@ -84,10 +85,10 @@ class CommitsPage extends Component {
         return (
             <View style={{flex: 1}}>
                 <View style={styles.header}>
-                    <Image source={require('../../img/header_background.png')} style={styles.headerImage}>
+                    <Image source={require('../../../img/header_background.png')} style={styles.headerImage}>
                         <View style={styles.backButtonView}>
                             <TouchableOpacity onPress={()=>Actions.pop()} >
-                                <Image source={require('../../img/back_button.png')} />
+                                <Image source={require('../../../img/back_button.png')} />
                             </TouchableOpacity>
                         </View>
 
@@ -115,7 +116,7 @@ class CommitsPage extends Component {
                      Actions.Shop()
                      Actions.refresh({key: 'drawer', open: value => !value })
                      }),30*/}}><Text style = {{color:'rgb(21,147,204)',padding:10,textDecorationLine: "underline",}}>Switch to Desktop Version</Text></TouchableOpacity></View>
-                {this.state.showProgress?
+                {this.props.commitType?
 
                     <View >
                         <ActivityIndicator
@@ -126,9 +127,35 @@ class CommitsPage extends Component {
                     </View>
                     :
                     <ScrollView >
-                        <ListView
-                            dataSource={this.state.dataSource}
-                            renderRow={(rowData) => this.renderRow(rowData)}/>
+                        {
+                            _.map(this.props.commitSuccessData,(rowData) => {
+                                console.log("commit rowData",rowData)
+                                var createdDate = rowData.commit.committer.date ;
+                                var months = [ "January", "February", "March", "April", "May", "June",
+                                    "July", "August", "September", "October", "November", "December" ];
+                                var today = new Date(createdDate);
+                                var dd = today.getDate();
+                                var mm = months[today.getMonth()]; //January is 0!
+                                var yyyy = today.getFullYear();
+                                if(dd<10){
+                                    dd='0'+dd;
+                                }
+                                var date = dd + " " + mm + ", " + yyyy
+                                //console.log("Date",date)
+                                return(
+
+                                    <View style={styles.mainButton}>
+                                        <Text>{rowData.commit.message}</Text>
+                                        <Text>{"commited by "}{rowData.commit.committer.name}{" on "}{date}</Text>
+
+
+                                    </View>
+                                )
+                            })
+                            /*<ListView
+                                dataSource={this.state.dataSource}
+                                renderRow={(rowData) => this.renderRow(rowData)}/>*/
+                        }
                     </ScrollView>
                 }</View>
 
@@ -155,9 +182,18 @@ class CommitsPage extends Component {
 }
 
 const styles = StyleSheet.create({
+    mainButton:{
+        borderWidth:2,
+        borderColor:'black',
+        borderRadius:12,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height:150,
+        padding:10,
+        margin:10
+    },
     header:{
         flexDirection: 'row',
-        alignItems: 'center',
         justifyContent: 'center',
         alignItems: 'center',
         position: 'relative',

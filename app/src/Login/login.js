@@ -146,7 +146,7 @@ class Login extends Component {
             data1 = JSON.parse(this.state.showData.user)
             console.log("Res",data1)
             Services.setLoginName(data1.login)
-            Actions.Repos({data:data1});
+            Actions.Home({data:data1});
             return (
                 <View >
 
@@ -174,7 +174,7 @@ class Login extends Component {
                             <Image source={require('../../img/Octocat.png')} style={styles.logo}/>
                         </View>
                         <View style={{flexDirection:'row',paddingTop:20}}>
-                            <Text style ={styles.textStyle}>EMAIL</Text>
+                            <Text style ={styles.textStyle}>Email</Text>
                             <TextInput  style ={styles.textInputStyle} placeholder="Please Enter Email"  value={this.state.username} onChangeText= {(text)=>this.setState({username:text})} />
 
                         </View>

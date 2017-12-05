@@ -3,9 +3,9 @@
  */
 import React,{ Component } from 'react'
 import {StyleSheet,TextInput,Text,View,TouchableOpacity,Dimensions,ScrollView,ListView,ActivityIndicator,Linking,Platform,Image} from 'react-native'
-import Button from '../ReusableComponents/Button';
-import Services from '../Services/Services';
-import { getRepos }  from '../Actions';
+import Button from '../../ReusableComponents/Button';
+import Services from '../../Services/Services';
+import { getRepos }  from '../../Actions';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux'
 import * as _ from 'lodash'
@@ -53,13 +53,14 @@ console.log("props",this.props)
                 Alert.alert("Please try again later")
             }))*/
     }
-componentWillUpdate(){
+/*componentWillUpdate(){
     this.setState({
         showProgress:false,
-        dataSource:this.state.dataSource.cloneWithRows(this.props.repoSuccessData)
+        //dataSource:this.state.dataSource.cloneWithRows(this.props.repoSuccessData)
     })
-}
+}*/
     renderRow(rowData){
+        console.log("rowData",rowData)
         Services.setRepoName(rowData.name)
         Services.setRepoBranch(rowData.default_branch)
         var createdDate = rowData.pushed_at ;
@@ -74,7 +75,7 @@ componentWillUpdate(){
         }
         var date = dd + " " + mm + ", " + yyyy
         return(
-        <TouchableOpacity onPress = {() => Actions.Commits({data:rowData})}>
+        <TouchableOpacity onPress = {() => Actions.RepoPage({data:rowData})}>
             <View style={{height:150,borderWidth:1,paddingTop:2,paddingBottom:2,paddingLeft:10,margin:1}}>
                 <Text style={{paddingTop:3,paddingBottom:2,paddingLeft:10,fontSize:18,fontWeight:'bold'}}>{rowData.name}</Text>
                 <Text style={{paddingTop:2,paddingBottom:2,paddingLeft:10}}>{rowData.description}</Text>
@@ -88,11 +89,15 @@ componentWillUpdate(){
         )
     }
     render() {
+        console.log("this.props",this.props)
         return (
             <View style={{flex: 1}}>
                 <View style={styles.header}>
-                    <Image source={require('../../img/header_background.png')} style={styles.headerImage}>
+                    <Image source={require('../../../img/header_background.png')} style={styles.headerImage}>
                         <View style={styles.backButtonView}>
+                            <TouchableOpacity onPress={()=>Actions.pop()} >
+                                <Image source={require('../../../img/back_button.png')} />
+                            </TouchableOpacity>
                         </View>
 
                         <View style={styles.headerTextView}>
@@ -100,6 +105,9 @@ componentWillUpdate(){
                         </View>
 
                         <View style={styles.rightButton}>
+                            <TouchableOpacity onPress={() => this.onPressDone()} >
+
+                            </TouchableOpacity>
                         </View>
                     </Image>
                 </View>
@@ -116,7 +124,7 @@ componentWillUpdate(){
                      Actions.Shop()
                      Actions.refresh({key: 'drawer', open: value => !value })
                      }),30*/}}><Text style = {{color:'rgb(21,147,204)',padding:10,textDecorationLine: "underline",}}>Switch to Desktop Version</Text></TouchableOpacity></View>
-            {this.state.showProgress?
+            {this.props.repoType?
 
                 <View >
                     <ActivityIndicator
@@ -127,9 +135,39 @@ componentWillUpdate(){
                 </View>
                 :
                 <ScrollView >
-                    <ListView
-                        dataSource={this.state.dataSource}
-                        renderRow={(rowData) => this.renderRow(rowData)}/>
+                    { _.map(this.props.repoSuccessData,(rowData) => {
+                        console.log("rowData",rowData)
+                        Services.setRepoName(rowData.name)
+                        Services.setRepoBranch(rowData.default_branch)
+                        var createdDate = rowData.pushed_at ;
+                        var months = [ "January", "February", "March", "April", "May", "June",
+                            "July", "August", "September", "October", "November", "December" ];
+                        var today = new Date(createdDate);
+                        var dd = today.getDate();
+                        var mm = months[today.getMonth()]; //January is 0!
+                        var yyyy = today.getFullYear();
+                        if(dd<10){
+                            dd='0'+dd;
+                        }
+                        var date = dd + " " + mm + ", " + yyyy
+                        return(
+                            <TouchableOpacity onPress = {() => Actions.RepoPage({data:rowData})} style={styles.mainButton}>
+                                <View>
+                                    <Text style={{fontSize:18,fontWeight:'bold'}}>{rowData.name}</Text>
+                                    <Text>{rowData.description}</Text>
+                                    <View style={{justifyContent:'flex-start',flexDirection:'row'}}>
+                                        <Text style={{fontSize:14,fontWeight:'bold',borderWidth:1,borderRadius:5,padding:2}}>{rowData.language}</Text>
+                                    </View>
+                                    <View style={{justifyContent:'flex-end',paddingTop:2,paddingBottom:2,paddingLeft:10}}><Text>{"Updated on "}{date}</Text></View>
+                                </View>
+                            </TouchableOpacity>
+
+                        )
+                    })
+                        /*<ListView
+                            dataSource={this.props.repoSuccessData}
+                            renderRow={(rowData) => this.renderRow(rowData)}/>*/
+                    }
                 </ScrollView>
             }</View>
 
@@ -140,9 +178,18 @@ componentWillUpdate(){
 }
 
 const styles = StyleSheet.create({
+    mainButton:{
+        borderWidth:2,
+        borderColor:'black',
+        borderRadius:12,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height:150,
+        padding:10,
+        margin:10
+    },
     header:{
         flexDirection: 'row',
-        alignItems: 'center',
         justifyContent: 'center',
         alignItems: 'center',
         position: 'relative',
@@ -152,7 +199,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0,
         elevation: 2,
-        width:deviceWidth,
+        width:deviceWidth
     },
     headerImage :{
         flexDirection: 'row',

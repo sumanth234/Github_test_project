@@ -79,7 +79,7 @@ class Services {
         var encodedAuth = base64.encode(username + ":" + password)
         var headers = new Headers();
         headers.append('Authorization', 'Basic ' + encodedAuth);
-        console.log(BASE_URL + uri + username + password)
+        console.log(BASE_URL + uri )
         return fetch(BASE_URL + uri, {
             method: type,
             timeout: 3000,
@@ -96,6 +96,61 @@ class Services {
             method: type,
             timeout: 3000,
             headers:headers
+        }).then(this.getStatus)
+            .then(this.parseJson)
+    }
+    getUserRepoIssues(uri, type = "GET",username,password) {
+            var encodedAuth = base64.encode(username + ":" + password)
+            var headers = new Headers();
+            headers.append('Authorization', 'Basic ' + encodedAuth);
+            console.log(BASE_URL + uri)
+            return fetch(BASE_URL + uri, {
+                method: type,
+                timeout: 3000,
+                headers:headers
+            }).then(this.getStatus)
+                .then(this.parseJson)
+    }
+    getUserStars(uri, type = "GET",username,password) {
+            var encodedAuth = base64.encode(username + ":" + password)
+            var headers = new Headers();
+            headers.append('Authorization', 'Basic ' + encodedAuth);
+            console.log(BASE_URL + uri)
+            return fetch(BASE_URL + uri, {
+                method: type,
+                timeout: 3000,
+                headers:headers
+            }).then(this.getStatus)
+                .then(this.parseJson)
+    }
+    getUserFollowers(uri, type = "GET",username,password) {
+            var encodedAuth = base64.encode(username + ":" + password)
+            var headers = new Headers();
+            headers.append('Authorization', 'Basic ' + encodedAuth);
+            console.log(BASE_URL + uri)
+            return fetch(BASE_URL + uri, {
+                method: type,
+                timeout: 3000,
+                headers:headers
+            }).then(this.getStatus)
+                .then(this.parseJson)
+    }
+    getUserFollowing(uri, type = "GET",username,password) {
+            var encodedAuth = base64.encode(username + ":" + password)
+            var headers = new Headers();
+            headers.append('Authorization', 'Basic ' + encodedAuth);
+            console.log(BASE_URL + uri)
+            return fetch(BASE_URL + uri, {
+                method: type,
+                timeout: 3000,
+                headers:headers
+            }).then(this.getStatus)
+                .then(this.parseJson)
+    }
+    getHTML(uri,type="GET"){
+        return fetch(uri, {
+            method: type,
+            timeout: 3000,
         }).then(this.getStatus)
             .then(this.parseJson)
     }

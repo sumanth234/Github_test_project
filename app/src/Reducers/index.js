@@ -10,10 +10,23 @@ const INITIALSTATE = {
     loginType:false,
     repoSuccessData : [],
     repoFailureData : [],
-    repoType : false ,
+    repoType : true ,
     commitSuccessData : [],
     commitFailureData : [],
-    commitType : false
+    commitType : true,
+    issueSuccessData: [],
+    issueFailureData: [],
+    issueType: true,
+    starSuccessData: [],
+    starFailureData: [],
+    starType: true ,
+    followerSuccessData: [],
+    followerFailureData: [],
+    followerType: true ,
+    followingSuccessData: [],
+    followingFailureData: [],
+    followingType: true ,
+
 }
 const sceneReducer = (state = {}, {type, scene}) => {
     switch(type){
@@ -36,9 +49,9 @@ const loginReducer = (state = INITIALSTATE, {type,payload}) => {
 const repoReducer = (state = INITIALSTATE, {type,payload}) => {
     switch(type){
         case Types.REPO_ABLETO_GETDATA:
-            return { ...state, repoSuccessData: payload ,repoType:true}
+            return { ...state, repoSuccessData: payload ,repoType:false}
         case Types.REPO_UNABLETO_GETDATA:
-            return { ...state, repoFailureData:payload,repoType:false}
+            return { ...state, repoFailureData:payload,repoType:true}
         default:
             return state
     }
@@ -46,9 +59,49 @@ const repoReducer = (state = INITIALSTATE, {type,payload}) => {
 const commitReducer = (state = INITIALSTATE, {type,payload}) => {
     switch(type){
         case Types.COMMIT_ABLETO_GETDATA:
-            return { ...state, commitSuccessData: payload ,commitType:true}
+            return { ...state, commitSuccessData: payload ,commitType:false}
         case Types.COMMIT_UNABLETO_GETDATA:
-            return { ...state, commitFailureData:payload,commitType:false}
+            return { ...state, commitFailureData:payload,commitType:true}
+        default:
+            return state
+    }
+}
+const issueReducer = (state = INITIALSTATE, {type,payload}) => {
+    switch(type){
+        case Types.ISSUE_ABLETO_GETDATA:
+            return { ...state, issueSuccessData: payload ,issueType:false}
+        case Types.ISSUE_UNABLETO_GETDATA:
+            return { ...state, issueFailureData:payload,issueType:true}
+        default:
+            return state
+    }
+}
+const starReducer = (state = INITIALSTATE, {type,payload}) => {
+    switch(type){
+        case Types.STAR_ABLETO_GETDATA:
+            return { ...state, starSuccessData: payload ,starType:false}
+        case Types.STAR_UNABLETO_GETDATA:
+            return { ...state, starFailureData:payload,starType:true}
+        default:
+            return state
+    }
+}
+const followerReducer = (state = INITIALSTATE, {type,payload}) => {
+    switch(type){
+        case Types.FOLLOWER_ABLETO_GETDATA:
+            return { ...state, followerSuccessData: payload ,followerType:false}
+        case Types.FOLLOWER_UNABLETO_GETDATA:
+            return { ...state, followerFailureData:payload,followerType:true}
+        default:
+            return state
+    }
+}
+const followingReducer = (state = INITIALSTATE, {type,payload}) => {
+    switch(type){
+        case Types.FOLLOWING_ABLETO_GETDATA:
+            return { ...state, followingSuccessData: payload ,followingType:false}
+        case Types.FOLLOWING_UNABLETO_GETDATA:
+            return { ...state, followingFailureData:payload,followingType:true}
         default:
             return state
     }
@@ -59,5 +112,9 @@ export default combineReducers({
     scene:sceneReducer,
     loginLib:loginReducer,
     repoLib:repoReducer,
-    commitLib:commitReducer
+    commitLib:commitReducer,
+    issueLib:issueReducer,
+    starLib:starReducer,
+    followerLib:followerReducer,
+    followingLib:followingReducer,
 })
